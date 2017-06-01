@@ -1,0 +1,23 @@
+<div>
+
+    <h2>Sign up</h2>
+
+    <div>
+        <ion-label color="primary">Email</ion-label>
+        <ion-input placeholder="Text Input" type="email" [(ngModel)]="email"></ion-input>
+    </div>
+
+    <div>
+        <ion-label color="primary">Password</ion-label>
+        <ion-input placeholder="Text Input" type="password" [(ngModel)]="password"></ion-input>
+    </div>
+
+    <div>
+        <button ion-button round (click)="signup()">Sign up</button>
+    </div>
+
+    <div>
+        <button ion-button round (click)="back()">Back</button>
+    </div>
+
+</div>

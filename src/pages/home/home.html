@@ -1,0 +1,54 @@
+<ion-header>
+    <ion-navbar>
+        <ion-title>Home</ion-title>
+    </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+    <!--<h2>Welcome to Ionic!</h2>-->
+    <!--<p>-->
+    <!--This starter project comes with simple tabs-based layout for apps-->
+    <!--that are going to primarily use a Tabbed UI.-->
+    <!--</p>-->
+    <!--<p>-->
+    <!--Take a look at the <code>src/pages/</code> directory to add or change tabs,-->
+    <!--update any existing page or create new pages.-->
+    <!--</p>-->
+
+    <div *ngIf="!isNewGame">
+
+        <ion-list>
+            <ion-item class="item item-block item-ios" *ngFor="let item of games | async">
+
+                <div item-start="">
+                    0 / {{item.maxPlayers}}
+                </div>
+                <ion-label class="label label-ios">{{ item.name }}</ion-label>
+                <button ion-button outline item-right (click)="join(item)">
+                    Join
+                </button>
+
+            </ion-item>
+        </ion-list>
+
+        <button ion-button round (click)="isNewGame = true">Create new game</button>
+
+    </div>
+
+    <div class="game-settings" *ngIf="isNewGame">
+        <div>
+            <ion-label color="primary">Name</ion-label>
+            <ion-input placeholder="Text Input" [(ngModel)]="game.name"></ion-input>
+        </div>
+
+        <div>
+            <ion-label color="primary">Players limit</ion-label>
+            <ion-input placeholder="Text Input" [(ngModel)]="game.maxPlayers"></ion-input>
+        </div>
+
+        <button ion-button round (click)="isNewGame = false">Back</button>
+        <button ion-button round (click)="createNewGame()">Create new game</button>
+    </div>
+
+
+</ion-content>
