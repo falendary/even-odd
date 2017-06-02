@@ -13,6 +13,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 
 import { GameService } from '../providers/game.service';
 import { UserService } from '../providers/user.service';
+import { AuthService } from '../providers/auth.service';
 import { AngularFireModule } from "angularfire2";
 import {AngularFireAuthModule} from "angularfire2/auth";
 import {AngularFireDatabaseModule} from "angularfire2/database";
@@ -67,7 +68,8 @@ export const firebaseConfig = {
         SplashScreen,
         {provide: ErrorHandler, useClass: IonicErrorHandler},
         GameService,
-        UserService
+        UserService,
+        AuthService
     ]
 })
 export class AppModule {

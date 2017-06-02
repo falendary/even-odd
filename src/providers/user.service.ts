@@ -1,47 +1,57 @@
 import { Injectable } from '@angular/core';
 
-//import {User} from "../models/user.model";
-import {AngularFireAuth} from "angularfire2/auth";
 import {AngularFireDatabase} from "angularfire2/database";
+import {User} from "../models/user.model";
+import {FirebaseObjectObservable} from "angularfire2/database";
 
 @Injectable()
 export class UserService {
 
-    constructor(private db:AngularFireDatabase, private afAuth:AngularFireAuth) {
+    user:FirebaseObjectObservable<User>;
 
+    constructor(private db:AngularFireDatabase) {
 
-        afAuth.auth.onAuthStateChanged(function (firebaseUser) {
-
-            if (firebaseUser) {
-                console.log(firebaseUser);
-            }
-
-        })
     }
 
-    public signup(email:string, pass:string) {
-        return this.afAuth.auth.createUserWithEmailAndPassword(email, pass).then((res:any) => {
+    public create(authData:any):any {
 
-            console.log('res', res);
+        console.log('res', authData);
 
-        })
+        this.db.object('/users/' + authData.uid).set({
+            email: authData.email,
+            //name: authData.displayName
+        });
+
+        return this.getMe();
+
     }
 
-    public checkAuth():boolean {
+    public getMe():any {
 
-        console.log(this.afAuth.auth.currentUser);
+        return this.db.object('/users/' + localStorage.getItem('userKey'));
 
-        return !!this.afAuth.auth.currentUser;
     }
 
+    public updateMe(data:any) {
 
-    public login(email:string, pass:string): any {
-        return this.afAuth.auth.signInWithEmailAndPassword(email, pass);
+        const user = this.db.object('/users/' + localStorage.getItem('userKey'));
+
+        user.update(data);
+
+        return user;
+
     }
 
-    public logout():void {
-        this.afAuth.auth.signOut();
+    public get(key):any {
+
+        return this.db.object('/users/' + key);
+
     }
 
+    public update(key, data:any) {
+
+        return this.db.object('/users/' + key).update(data);
+
+    }
 
 }

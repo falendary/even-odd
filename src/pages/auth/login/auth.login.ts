@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import {NavController} from "ionic-angular/index";
-import {UserService} from "../../../providers/user.service";
 import {HomePage} from "../../home/home";
+import {AuthService} from "../../../providers/auth.service";
 
 @Component({
     templateUrl: 'auth.login.html'
@@ -11,17 +11,17 @@ export class LoginPage {
     public email:string;
     public password:string;
 
-    constructor(public navCtrl:NavController, public userService:UserService) {
+    constructor(public navCtrl:NavController, public authService:AuthService) {
 
 
     }
 
     public login():void {
-        this.userService.login(this.email, this.password).then(user => {
+        this.authService.login(this.email, this.password).then(authData => {
 
-            console.log('user', user);
+            //console.log('user', user);
 
-            localStorage.setItem("user", JSON.stringify({email: user.email}));
+            localStorage.setItem("userKey", authData.uid);
 
             this.navCtrl.push(HomePage)
 

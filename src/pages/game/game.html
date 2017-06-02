@@ -1,5 +1,39 @@
 <div>
 
-  game
+    <div *ngIf="gameLoaded">
+
+        <div>
+            Name: {{game.name}}
+        </div>
+
+        <div>
+            <h2>Players</h2>
+        </div>
+
+        <div *ngFor="let player of game.players">
+            {{player.email}}
+        </div>
+
+        <hr>
+        
+        <div>
+            <ion-label>Wish number</ion-label>
+            <ion-input placeholder="Text Input" type="number" [(ngModel)]="number"></ion-input>
+        </div>
+
+        <div>
+            <button ion-button (click)="wish()">
+                Wish
+            </button>
+        </div>
+
+
+        <button ion-button (click)="leave()">
+            Leave game
+        </button>
+    </div>
+    <div *ngIf="!gameLoaded">
+        Loading..
+    </div>
 
 </div>

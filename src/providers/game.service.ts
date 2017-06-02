@@ -12,25 +12,38 @@ export class GameService {
         this.items = this.db.list('/games');
     }
 
-    public getList():FirebaseListObservable<Game[]> {
-        return this.items;
+    public getList(query):FirebaseListObservable<Game[]> {
+        return this.db.list('/games', query);
     }
 
-    public createItem(game:Game):FirebaseObjectObservable<Game> {
-        this.items.push(game);
+    public getItem(key:string):FirebaseObjectObservable<Game> {
+        return this.db.object('/games/' + key);
+    };
 
-        return this.items[0]
+    //public createItem(game:Game):FirebaseObjectObservable<Game> {
+    public createItem(game:Game):any {
+
+        return this.items.push(game).then(item => {
+            console.log('item', item);
+
+            return item;
+        });
     }
 
-    public updateItem(key: string, newText: string):void {
-        this.items.update(key, { text: newText });
+    public updateItem(key:string, data:Game):FirebaseObjectObservable<Game> {
+
+        const game = this.db.object('/games/' + key);
+        game.update(data);
+
+        return game;
+
     }
 
-    public deleteItem(key: string): void {
+    public deleteItem(key:string):void {
         this.items.remove(key);
     }
 
-    public deleteEverything(): void {
+    public deleteEverything():void {
         this.items.remove();
     }
 

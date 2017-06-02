@@ -5,6 +5,11 @@ import {FirebaseListObservable} from "angularfire2/database";
 import {GameService} from "../../providers/game.service";
 import {Game} from "../../models/game.model";
 import {GamePage} from "../game/game";
+import {UserService} from "../../providers/user.service";
+import {User} from "../../models/user.model";
+import {Subscription} from "rxjs/Subscription";
+import {AuthService} from "../../providers/auth.service";
+import {TabsPage} from "../tabs/tabs";
 
 @Component({
     selector: 'page-home',
@@ -14,35 +19,86 @@ export class HomePage {
 
     //accounts:FirebaseListObservable<any[]>;
 
+    private userSubscription:Subscription;
+    private gameUpdateSubscription:Subscription;
+    private userUpdateSubscription:Subscription;
+
     public games:FirebaseListObservable<Game[]>;
+    public user:User;
+
+    public userKey:string;
 
     public game:Game = new Game();
     public isNewGame:boolean = false;
 
+    constructor(public navCtrl:NavController, private gameService:GameService, private userService:UserService, private authService: AuthService) {
 
-    constructor(public navCtrl:NavController, public gameService:GameService) {
+        this.userKey = localStorage.getItem('userKey');
 
-        this.games = this.gameService.getList();
+        const opts = {
+            query: {
+                orderByChild: 'status',
+                equalTo: 'created'
+            }
+        };
 
-        console.log('this.gameName', this.game);
+        this.games = this.gameService.getList(opts);
+        this.userSubscription = this.userService.getMe().subscribe(item => this.user = item);
 
     }
 
-    public join(item:Game):void {
-        console.log('item', item);
+    public logout(): void {
+        this.authService.logout();
+        this.navCtrl.setRoot(TabsPage);
+        this.navCtrl.popToRoot()
+    }
 
-        this.navCtrl.push(GamePage, item);
+    public join(item:Game):void {
+
+        this.user.key = this.user.$key;
+        item.players.push(this.user);
+
+        this.gameUpdateSubscription = this.gameService.updateItem(item.$key, item).subscribe(() => {
+
+            this.userUpdateSubscription = this.userService.updateMe({currentGame: item.$key}).subscribe(() => {
+
+                this.gameUpdateSubscription.unsubscribe();
+                this.userUpdateSubscription.unsubscribe();
+
+                this.navCtrl.push(GamePage, item);
+
+            });
+
+        })
+
     }
 
 
     public createNewGame():void {
 
-        console.log('create new game');
-
         console.log('this.gameName', this.game);
+        console.log('this.user', this.user);
 
-        this.gameService.createItem(this.game);
+        this.user.key = this.user.$key;
+        this.game.players.push(this.user);
+        this.game.status = 'created';
 
+        this.gameService.createItem(this.game).then(game => {
+
+            console.log('game', game);
+
+            this.userService.updateMe({currentGame: game.key});
+
+            this.navCtrl.push(GamePage, game);
+        })
+
+    }
+
+    ngOnDestroy() {
+
+        console.log('Home component destroyed');
+
+        this.userSubscription.unsubscribe();
     }
 
 }

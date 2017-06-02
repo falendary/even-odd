@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import {NavController} from "ionic-angular/index";
-import {UserService} from "../../../providers/user.service";
+import {AuthService} from "../../../providers/auth.service";
+import {HomePage} from "../../home/home";
 
 
 @Component({
@@ -11,13 +12,18 @@ export class SignupPage {
     public email:string;
     public password:string;
 
-    constructor(public navCtrl:NavController, public userService:UserService) {
+    constructor(public navCtrl:NavController, public authService:AuthService) {
 
 
     }
 
     public signup():void {
-        this.userService.signup(this.email, this.password);
+        this.authService.signup(this.email, this.password).then((authData)=> {
+
+            localStorage.setItem("userKey", authData.uid);
+
+            this.navCtrl.push(HomePage);
+        })
     }
 
     public back():void {

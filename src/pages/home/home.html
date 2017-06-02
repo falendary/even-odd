@@ -1,6 +1,9 @@
 <ion-header>
     <ion-navbar>
-        <ion-title>Home</ion-title>
+        <ion-title>Home
+
+            <button ion-button item-end (click)="logout()">Logout</button>
+        </ion-title>
     </ion-navbar>
 </ion-header>
 
@@ -15,21 +18,35 @@
     <!--update any existing page or create new pages.-->
     <!--</p>-->
 
+    <h3 *ngIf="user">Welcome, {{user.email}}</h3>
+
     <div *ngIf="!isNewGame">
+
+        <!--<div *ngIf="games.length">-->
 
         <ion-list>
             <ion-item class="item item-block item-ios" *ngFor="let item of games | async">
 
-                <div item-start="">
+                <div item-start="" *ngIf="item.players; then playersBlock else noPlayersBlock"></div>
+
+                <ng-template #playersBlock>
+                    {{item.players.length}} / {{item.maxPlayers}}
+                </ng-template>
+                <ng-template #noPlayersBlock>
                     0 / {{item.maxPlayers}}
-                </div>
-                <ion-label class="label label-ios">{{ item.name }}</ion-label>
+                </ng-template>
+
+                <ion-label class="label label-ios">&nbsp;{{ item.name }}</ion-label>
                 <button ion-button outline item-right (click)="join(item)">
                     Join
                 </button>
 
             </ion-item>
         </ion-list>
+        <!--</div>-->
+        <!--<div *ngIf="!games.length">-->
+        <!--<p>Games not found</p>-->
+        <!--</div>-->
 
         <button ion-button round (click)="isNewGame = true">Create new game</button>
 

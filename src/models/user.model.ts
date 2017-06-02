@@ -1,7 +1,9 @@
 export class User {
-    username:string = '';
-    password:string = '';
-    wins: number;
-    loses: number;
-    games: number;
+    $key:string;
+    key: string;
+    email:string = '';
+    currentGame:string;
+    wins:number;
+    loses:number;
+    games:number;
 }
