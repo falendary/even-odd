@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import {NavController} from "ionic-angular/index";
 import {AuthService} from "../../../providers/auth.service";
-import {HomePage} from "../../home/home";
+import {TabsPage} from "../../tabs/tabs";
 
 
 @Component({
@@ -14,19 +14,29 @@ export class SignupPage {
 
     constructor(public navCtrl:NavController, public authService:AuthService) {
 
-
     }
 
     public signup():void {
-        this.authService.signup(this.email, this.password).then((authData)=> {
 
-            localStorage.setItem("userKey", authData.uid);
+        this.authService.signup(this.email, this.password).then(key=> {
 
-            this.navCtrl.push(HomePage);
+            localStorage.setItem("userKey", key);
+
+            this.navCtrl.setRoot(TabsPage);
+            this.navCtrl.popToRoot();
         })
+
+    }
+
+    public validateFields(): boolean {
+
+        return this.email !== null && this.password !== null;
+
     }
 
     public back():void {
+
         this.navCtrl.pop();
+
     }
 }

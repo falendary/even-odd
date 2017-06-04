@@ -1,0 +1,36 @@
+<ion-header>
+    <ion-navbar>
+        <ion-title>
+            Even odd
+        </ion-title>
+    </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+
+    <ion-grid *ngIf="user">
+        <ion-row>
+            <ion-col col-8>
+                <ion-label no-margin color="primary">Name</ion-label>
+                <ion-input placeholder="Alex" [(ngModel)]="user.name"></ion-input>
+            </ion-col>
+            <ion-col col-4 text-right>
+                <button [disabled]="!user.name" (click)="saveName()" color="secondary" item-end ion-button
+                        icon-only>
+                    <ion-icon name="ios-refresh"></ion-icon>
+                </button>
+            </ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col col-12>
+                <ion-label no-margin color="primary">Email</ion-label>
+                <ion-input [(ngModel)]="user.email" [disabled]="true"></ion-input>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+
+    <div padding>
+        <button ion-button block (click)="logout()">Logout</button>
+    </div>
+
+</ion-content>

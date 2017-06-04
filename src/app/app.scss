@@ -14,3 +14,29 @@
 // To declare rules for a specific mode, create a child rule
 // for the .md, .ios, or .wp mode classes. The mode class is
 // automatically applied to the <body> element in the app.
+
+@import "../pages/home/home";
+
+
+ion-header {
+  ion-title.title div {
+    text-transform: uppercase;
+    font-weight: 400;
+    letter-spacing: 5px;
+  }
+}
+
+.fw-200{
+  font-weight: 200;
+}
+
+.ion-page.show-page {
+  background: #fff;
+}
+
+
+.logo-h1 {
+  text-transform: uppercase;
+  font-weight: 400;
+  letter-spacing: 5px;
+}

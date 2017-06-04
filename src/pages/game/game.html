@@ -1,39 +1,190 @@
-<div>
+<ion-header>
+    <ion-navbar hideBackButton="true">
+        <ion-title>Even odd
+        </ion-title>
+    </ion-navbar>
+</ion-header>
 
-    <div *ngIf="gameLoaded">
+<ion-content padding>
 
-        <div>
-            Name: {{game.name}}
+    <div>
+
+        <div *ngIf="gameLoaded">
+
+            <div *ngIf="game.status == 'inprogress'">
+
+                <h2 text-center margin-bottom>Turn № {{game.currentTurn + 1}}</h2>
+
+                <div *ngIf="game.playerWishingId == user.$key">
+
+                    <div *ngIf="!game.wishedNumber">
+                        <div>
+                            <h4 class="fw-200" text-center>Please, wish a number</h4>
+                            <h2 class="wish-number-container" text-center><b>{{wishNumber}}</b>
+                                <button *ngIf="wishNumber" (click)="wishNumber = null" small item-end ion-button
+                                        icon-only>
+                                    <ion-icon name="ios-close-circle-outline"></ion-icon>
+                                </button>
+                            </h2>
+                        </div>
+
+                        <ion-grid class="keyboard-numeric">
+                            <ion-row>
+                                <ion-col text-center>
+                                    <button round ion-button (click)="addNumber(1)">1</button>
+                                </ion-col>
+                                <ion-col text-center>
+                                    <Button round ion-button (click)="addNumber(2)">2</Button>
+                                </ion-col>
+                                <ion-col text-center>
+                                    <Button round ion-button (click)="addNumber(3)">3</Button>
+                                </ion-col>
+                            </ion-row>
+                            <ion-row>
+                                <ion-col text-center>
+                                    <button round ion-button (click)="addNumber(4)">4</button>
+                                </ion-col>
+                                <ion-col text-center>
+                                    <Button round ion-button (click)="addNumber(5)">5</Button>
+                                </ion-col>
+                                <ion-col text-center>
+                                    <Button round ion-button (click)="addNumber(6)">6</Button>
+                                </ion-col>
+                            </ion-row>
+                            <ion-row>
+                                <ion-col text-center>
+                                    <button round ion-button (click)="addNumber(7)">7</button>
+                                </ion-col>
+                                <ion-col text-center>
+                                    <Button round ion-button (click)="addNumber(8)">2</Button>
+                                </ion-col>
+                                <ion-col text-center>
+                                    <Button round ion-button (click)="addNumber(9)">3</Button>
+                                </ion-col>
+                            </ion-row>
+                        </ion-grid>
+
+
+                        <div padding>
+                            <button block color="secondary" [disabled]="!wishNumber" ion-button (click)="wish()">
+                                Wish
+                            </button>
+                        </div>
+
+                    </div>
+
+                    <div *ngIf="game.wishedNumber" margin-bottom>
+
+                        <h4 class="fw-200" text-center>Player is guessing.</h4>
+                        <h4 class="fw-200" text-center>You wished <b>{{game.wishedNumber}}</b></h4>
+
+                    </div>
+
+                </div>
+
+                <div *ngIf="game.playerGuesingId == user.$key" margin-bottom>
+
+                    <div *ngIf="game.wishedNumber">
+
+                        <ion-grid>
+                            <ion-row>
+                                <ion-col>
+                                    <button item-start block ion-button (click)="guess('odd')">Odd</button>
+                                </ion-col>
+                                <ion-col>
+                                    <Button item-end block ion-button (click)="guess('even')">Even</Button>
+                                </ion-col>
+                            </ion-row>
+                        </ion-grid>
+
+                    </div>
+
+                    <div *ngIf="!game.wishedNumber">
+                        <h4 class="fw-200" text-center>Player is wishing number</h4>
+                    </div>
+
+                </div>
+
+                <ion-list>
+                    <ion-list-header>
+                        <b item-start>Players</b> <b item-end>Score</b>
+                    </ion-list-header>
+                    <ion-item *ngFor="let player of game.players">
+                        {{getPlayerName(player)}} <span item-end>{{player.currentScore}}</span>
+                    </ion-item>
+                </ion-list>
+
+            </div>
+
+            <div *ngIf="game.status == 'created'">
+
+                <div margin-bottom padding-left>
+                    <div>
+                        Game: {{game.name}}
+                    </div>
+                    <div>
+                        Players: {{game.players.length}} / {{game.maxPlayers}}
+                    </div>
+                </div>
+
+                <ion-list>
+                    <ion-list-header>
+                        <b item-start>Players</b> <b item-end>Ready</b>
+                    </ion-list-header>
+                    <ion-item *ngFor="let player of game.players">
+                        <span item-start>{{getPlayerName(player)}}</span> <span *ngIf="player.isReady" item-end>
+                        <ion-icon color="secondary" ios="ios-checkmark-circle" md="md-checkmark-circle"></ion-icon></span>
+                    </ion-item>
+                </ion-list>
+
+                <div margin-top>
+
+                    <div *ngIf="game.hostPlayerId == user.$key">
+
+                        <!--<button ion-button="" [ngClass]="{disabled:!checkReadyStatus()}" (click)="start()">-->
+                        <button ion-button="" block color="primary" [disabled]="!checkReadyStatus()" (click)="start()">
+                            Start
+                        </button>
+
+                    </div>
+
+                    <div *ngIf="game.hostPlayerId != user.$key">
+
+                        <button *ngIf="!user.isReady" block color="secondary" ion-button (click)="toggleReady()">
+                            Ready
+                        </button>
+
+                        <button *ngIf="user.isReady" block color="light" ion-button (click)="toggleReady()">
+                            Unready
+                        </button>
+
+                    </div>
+
+                    <button ion-button block color="danger" margin-top (click)="leave()">
+                        Leave game
+                    </button>
+
+                </div>
+
+            </div>
+
+            <div *ngIf="game.status == 'finished'">
+
+                <h4 text-center margin-bottom class="fw-200">Game is finished</h4>
+
+                <div *ngIf="checkWinner(user)" class="congratulations-block" margin-bottom text-center>Congratulations, you
+                    won!
+                </div>
+
+                <button ion-button block color="light" (click)="backToHome()">Back to home</button>
+
+            </div>
+
+        </div>
+        <div *ngIf="!gameLoaded">
+            Loading..
         </div>
 
-        <div>
-            <h2>Players</h2>
-        </div>
-
-        <div *ngFor="let player of game.players">
-            {{player.email}}
-        </div>
-
-        <hr>
-        
-        <div>
-            <ion-label>Wish number</ion-label>
-            <ion-input placeholder="Text Input" type="number" [(ngModel)]="number"></ion-input>
-        </div>
-
-        <div>
-            <button ion-button (click)="wish()">
-                Wish
-            </button>
-        </div>
-
-
-        <button ion-button (click)="leave()">
-            Leave game
-        </button>
     </div>
-    <div *ngIf="!gameLoaded">
-        Loading..
-    </div>
 
-</div>
+</ion-content>

@@ -27454,3 +27454,47 @@ ion-navbar.toolbar {
     padding-top: calc(16px + 20px);
   }
 }
+
+ion-header ion-title.title div {
+  text-transform: uppercase;
+  font-weight: 400;
+  letter-spacing: 5px;
+}
+
+.fw-200 {
+  font-weight: 200;
+}
+
+.ion-page.show-page {
+  background: #fff;
+}
+
+.logo-h1 {
+  text-transform: uppercase;
+  font-weight: 400;
+  letter-spacing: 5px;
+}
+
+.wish-number-container {
+  height: 28px;
+  width: 100%;
+  position: relative;
+  padding: 0 32px;
+}
+
+.wish-number-container button {
+  position: absolute;
+  right: 48px;
+  top: 0;
+}
+
+.congratulations-block {
+  background-color: #32db64;
+  color: #fff;
+  font-size: 16px;
+  padding: 16px 0;
+}
+
+.keyboard-numeric {
+  padding: 16px 32px;
+}

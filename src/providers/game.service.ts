@@ -20,7 +20,7 @@ export class GameService {
         return this.db.object('/games/' + key);
     };
 
-    //public createItem(game:Game):FirebaseObjectObservable<Game> {
+
     public createItem(game:Game):any {
 
         return this.items.push(game).then(item => {
@@ -33,6 +33,7 @@ export class GameService {
     public updateItem(key:string, data:Game):FirebaseObjectObservable<Game> {
 
         const game = this.db.object('/games/' + key);
+
         game.update(data);
 
         return game;

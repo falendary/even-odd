@@ -1,30 +1,37 @@
 import { Injectable } from '@angular/core';
 
 import {AngularFireAuth} from "angularfire2/auth";
-import {User} from "../models/user.model";
 import {UserService} from "./user.service";
+
 
 @Injectable()
 export class AuthService {
 
-    constructor(private afAuth:AngularFireAuth, private userService:UserService) {
+
+    constructor(private afAuth: AngularFireAuth, private userService: UserService) {
 
     }
 
-    public signup(email:string, pass:string) {
-        return this.afAuth.auth.createUserWithEmailAndPassword(email, pass).then((authDta:any) => {
+    public signup(email: string, pass: string): any {
 
-            this.userService.create(authDta);
+        return this.afAuth.auth.createUserWithEmailAndPassword(email, pass).then((authDta: any) => {
 
-            return authDta;
+            return new Promise((resolve) => {
+
+                this.userService.create({email: authDta.email}).subscribe((data)=> {
+                    resolve(data[0].$key)
+                });
+
+            })
+
         })
     }
 
-    public login(email:string, pass:string):any {
+    public login(email: string, pass: string): any {
         return this.afAuth.auth.signInWithEmailAndPassword(email, pass);
     }
 
-    public logout():void {
+    public logout(): void {
         this.afAuth.auth.signOut();
     }
 

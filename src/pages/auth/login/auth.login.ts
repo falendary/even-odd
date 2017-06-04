@@ -1,35 +1,50 @@
 import { Component } from '@angular/core';
 import {NavController} from "ionic-angular/index";
-import {HomePage} from "../../home/home";
 import {AuthService} from "../../../providers/auth.service";
+import {UserService} from "../../../providers/user.service";
+import {TabsPage} from "../../tabs/tabs";
+import {User} from "../../../models/user.model";
 
 @Component({
     templateUrl: 'auth.login.html'
 })
 export class LoginPage {
 
-    public email:string;
-    public password:string;
+    public email: string;
+    public password: string;
 
-    constructor(public navCtrl:NavController, public authService:AuthService) {
+    public user: User;
 
+    constructor(public navCtrl: NavController, public authService: AuthService, private userService: UserService) {
 
     }
 
-    public login():void {
+    public login(): void {
+
         this.authService.login(this.email, this.password).then(authData => {
 
-            //console.log('user', user);
+            this.userService.getUserByEmail(this.email).subscribe(data => {
 
-            localStorage.setItem("userKey", authData.uid);
+                console.log('data', data);
 
-            this.navCtrl.push(HomePage)
+                localStorage.setItem("userKey", data[0].$key);
+
+                this.navCtrl.setRoot(TabsPage);
+                this.navCtrl.popToRoot();
+                //this.navCtrl.push(HomePage);
+            });
 
         });
 
     }
 
-    public back():void {
+    public validateFields(): boolean {
+
+        return this.email !== null && this.password !== null;
+
+    }
+
+    public back(): void {
         this.navCtrl.pop();
     }
 }

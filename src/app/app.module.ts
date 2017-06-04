@@ -3,8 +3,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { MyApp } from './app.component';
 
-import { AboutPage } from '../pages/about/about';
-import { ContactPage } from '../pages/contact/contact';
+import { ProfilePage } from '../pages/profile/profile';
+import { LeaderboardPage } from '../pages/leaderboard/leaderboard';
 import { HomePage } from '../pages/home/home';
 import { TabsPage } from '../pages/tabs/tabs';
 
@@ -21,6 +21,8 @@ import {GamePage} from "../pages/game/game";
 import {AuthPage} from "../pages/auth/main/auth.main";
 import {SignupPage} from "../pages/auth/signup/auth.signup";
 import {LoginPage} from "../pages/auth/login/auth.login";
+import {MetaService} from "../providers/meta.service";
+import {MetaHelper} from "../helpers/meta.helper";
 
 export const firebaseConfig = {
     apiKey: "AIzaSyClJd828Vi82QuSWhqMqtpK6-CYi_bthFg",
@@ -35,8 +37,8 @@ export const firebaseConfig = {
 @NgModule({
     declarations: [
         MyApp,
-        AboutPage,
-        ContactPage,
+        ProfilePage,
+        LeaderboardPage,
         HomePage,
         TabsPage,
         GamePage,
@@ -54,8 +56,8 @@ export const firebaseConfig = {
     bootstrap: [IonicApp],
     entryComponents: [
         MyApp,
-        AboutPage,
-        ContactPage,
+        ProfilePage,
+        LeaderboardPage,
         HomePage,
         TabsPage,
         GamePage,
@@ -69,7 +71,9 @@ export const firebaseConfig = {
         {provide: ErrorHandler, useClass: IonicErrorHandler},
         GameService,
         UserService,
-        AuthService
+        AuthService,
+        MetaService,
+        MetaHelper
     ]
 })
 export class AppModule {
