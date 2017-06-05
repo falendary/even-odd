@@ -1,26 +1,34 @@
-This is a starter template for [Ionic](http://ionicframework.com/docs/) projects.
+Even odd
+A simple HTML/JS app using Angular/Typescript/Ionic. Just guess players wished number.
+Is it even? Or odd? That's it.
 
-## How to use this template
+## Installation
+Clone repository to local machine:
 
-*This template does not work on its own*. The shared files for each starter are found in the [ionic2-app-base repo](https://github.com/ionic-team/ionic2-app-base).
+`git clone https://github.com/falendary/even-odd`
 
-To use this template, either create a new ionic project using the ionic node.js utility, or copy the files from this repository into the [Starter App Base](https://github.com/ionic-team/ionic2-app-base).
+Install Ionic
 
-### With the Ionic CLI:
+`npm install -g cordova ionic`
 
-Take the name after `ionic2-starter-`, and that is the name of the template to be used when using the `ionic start` command below:
+Install node modules:
 
-```bash
-$ sudo npm install -g ionic cordova
-$ ionic start myTabs tabs
-```
+`npm install`
 
-Then, to run it, cd into `myTabs` and run:
+Run local web-server
 
-```bash
-$ ionic cordova platform add ios
-$ ionic cordova run ios
-```
+`node server.js`
 
-Substitute ios for android if not on a Mac.
+### Development
 
+Run watch server (rebuild project if file changes)
+
+`ionic serve`
+
+License
+----
+
+MIT
+
+
+**Free Software, Hell Yeah!**
