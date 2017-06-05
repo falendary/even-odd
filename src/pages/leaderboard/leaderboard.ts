@@ -2,16 +2,17 @@ import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import {UserService} from "../../providers/user.service";
 import {User} from "../../models/user.model";
-import {FirebaseListObservable} from "angularfire2/database";
 import {MetaHelper} from "../../helpers/meta.helper";
 
 @Component({
     selector: 'page-leaderboard',
-    templateUrl: 'leaderboard.html'
+    templateUrl: 'leaderboard.html',
 })
 export class LeaderboardPage {
 
-    public players: FirebaseListObservable<User[]>;
+    public players: User[];
+
+    public ready: boolean = false;
 
     constructor(public navCtrl: NavController, private userService: UserService, private metaHelper: MetaHelper) {
 
@@ -25,10 +26,15 @@ export class LeaderboardPage {
                 orderByChild: 'wins',
                 limitToLast: 10,
                 orderByValue: true,
+                startAt: 1
             }
         };
 
-        this.players = this.userService.getList(opts);
+        this.userService.getList(opts).subscribe((data)=> {
+            this.players = data.filter(item => item.wins);
+
+            this.ready = true;
+        });
 
         //console.log('this.players', this.players);
     }

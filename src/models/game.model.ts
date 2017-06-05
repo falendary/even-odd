@@ -17,6 +17,8 @@ export class Game {
     turnsLimit: number;
     currentTurn: number;
 
+    victoryBounty: boolean;
+
     wishedNumber: number;
     playerGuesingId: string;
     playerWishingId: string;

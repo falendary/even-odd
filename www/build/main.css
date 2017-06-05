@@ -27475,6 +27475,14 @@ ion-header ion-title.title div {
   letter-spacing: 5px;
 }
 
+.toast-success .toast-container {
+  background-color: #32db64;
+}
+
+.toast-fail .toast-container {
+  background-color: #f4f4f4;
+}
+
 .wish-number-container {
   height: 28px;
   width: 100%;
@@ -27490,6 +27498,13 @@ ion-header ion-title.title div {
 
 .congratulations-block {
   background-color: #32db64;
+  color: #fff;
+  font-size: 16px;
+  padding: 16px 0;
+}
+
+.fail-block {
+  background-color: #000;
   color: #fff;
   font-size: 16px;
   padding: 16px 0;

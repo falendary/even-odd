@@ -56,10 +56,10 @@
                                     <button round ion-button (click)="addNumber(7)">7</button>
                                 </ion-col>
                                 <ion-col text-center>
-                                    <Button round ion-button (click)="addNumber(8)">2</Button>
+                                    <Button round ion-button (click)="addNumber(8)">8</Button>
                                 </ion-col>
                                 <ion-col text-center>
-                                    <Button round ion-button (click)="addNumber(9)">3</Button>
+                                    <Button round ion-button (click)="addNumber(9)">9</Button>
                                 </ion-col>
                             </ion-row>
                         </ion-grid>
@@ -175,6 +175,20 @@
                 <div *ngIf="checkWinner(user)" class="congratulations-block" margin-bottom text-center>Congratulations, you
                     won!
                 </div>
+
+                <div *ngIf="!checkWinner(user)" class="fail-block" margin-bottom text-center>You lose.
+                </div>
+
+                <h4 text-center margin-bottom class="fw-200">Results</h4>
+
+                <ion-list>
+                    <ion-list-header>
+                        <b item-start>Players</b> <b item-end>Score</b>
+                    </ion-list-header>
+                    <ion-item *ngFor="let player of game.players">
+                        {{getPlayerName(player)}} <span item-end>{{player.currentScore}}</span>
+                    </ion-item>
+                </ion-list>
 
                 <button ion-button block color="light" (click)="backToHome()">Back to home</button>
 

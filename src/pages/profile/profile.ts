@@ -22,7 +22,12 @@ export class ProfilePage {
 
     public getUser(): void {
 
-        this.userService.getMe().subscribe(user => this.user = user);
+        this.userService.getMe().subscribe(user => {
+            this.user = user
+
+            if(!this.user.wins) this.user.wins = 0;
+            if(!this.user.loses) this.user.loses = 0;
+        });
 
     }
 

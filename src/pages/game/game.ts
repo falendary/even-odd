@@ -28,7 +28,6 @@ export class GamePage {
     public gameLoaded: boolean = false;
 
     public wishNumber: number;
-    public victoryBounty: boolean = false;
 
     public turnsLimit: number;
 
@@ -119,7 +118,9 @@ export class GamePage {
 
     public updatePlayersStats(): void {
 
-        this.game.players.forEach(player => {
+        this.game.players.forEach(_player => {
+
+            let player = JSON.parse(JSON.stringify(_player));
 
             if (!player.games) player.games = 0;
             if (!player.wins) player.wins = 0;
@@ -144,10 +145,27 @@ export class GamePage {
 
     public congratPlayer(): void {
 
-        let phrases = ["Hurray!", "Great one!", "You are lucky today!", "Congratulations!", "Nice one!", "Great job!", "Wooah"];
+        let phrases = ["Hurray!", "Great one!", "You are lucky today!", "Congratulations!", "Nice one!", "Great job!", "Wooah",
+            "Awesome!", "Nice guess!", "You got it!"];
 
         let toast = this.toastCtrl.create({
             message: phrases[this.metaHelper.getRandom(0, phrases.length - 1)] + ' +1',
+            duration: 3000,
+            position: 'top',
+            cssClass: 'toast-success',
+        });
+
+        toast.present();
+
+    }
+
+    public informPlayer(): void {
+
+        let phrases = ["Nope", "Try next time", "Don't worry", "Unfair", "Miss!", "Oops", "Better luck next time",
+            "Unfortunate", "Bad luck", "Fail", "Misfortune", "Fiasco"];
+
+        let toast = this.toastCtrl.create({
+            message: phrases[this.metaHelper.getRandom(0, phrases.length - 1)],
             duration: 3000,
             position: 'top'
         });
@@ -207,7 +225,9 @@ export class GamePage {
 
                 this.game.turnsLimit = this.game.turnsLimit + this.game.players.length;
 
-                this.victoryBounty = true; // initialize draw bounty
+                this.game.victoryBounty = true; // initialize draw bounty
+
+                console.log('Initiate bounty', this.game.victoryBounty);
 
             } else {
 
@@ -231,22 +251,16 @@ export class GamePage {
 
     public guess(type: string): void {
 
-        if (this.game.wishedNumber % 2 == 0 && type == 'even') {
+        if (this.game.wishedNumber % 2 == 0 && type == 'even' || this.game.wishedNumber % 2 != 0 && type == 'odd') {
             this.updatePlayerScore();
             this.congratPlayer();
 
-            if (this.victoryBounty == true) { // if we have draw, and looking for first successfully guessed player
+            if (this.game.victoryBounty == true) { // if we have draw, and looking for first successfully guessed player
                 this.finishGame();
             }
-        }
 
-        if (this.game.wishedNumber % 2 != 0 && type == 'odd') {
-            this.updatePlayerScore();
-            this.congratPlayer();
-
-            if (this.victoryBounty == true) { // if we have draw, and looking for first successfully guessed player
-                this.finishGame();
-            }
+        } else {
+            this.informPlayer();
         }
 
         this.isFinish();

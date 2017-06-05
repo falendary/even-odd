@@ -8,22 +8,26 @@
 
 <ion-content padding>
 
-    <h4 text-center class="fw-200">Leaderboard</h4>
+    <div *ngIf="ready">
 
-    <div *ngIf="(players | async)?.length === 0" text-center>
-        <h4 class="fw-200">No leaders yet</h4>
-    </div>
+        <h4 text-center class="fw-200">Leaderboard</h4>
 
+        <div *ngIf="players.length === 0" text-center>
+            <h4 class="fw-200">No leaders yet</h4>
+        </div>
 
-    <div *ngIf="(players | async)?.length !== 0">
-        <ion-list>
-            <ion-list-header>
-                <b item-start>Players</b> <b item-end>Wins</b>
-            </ion-list-header>
-            <ion-item *ngFor="let player of players | async">
-                <span item-start>{{getPlayerName(player)}}</span> <span item-end>{{player.wins ? player.wins : 0}}</span>
-            </ion-item>
-        </ion-list>
+        <div *ngIf="players.length !== 0">
+            <ion-list>
+                <ion-list-header>
+                    <b item-start>Players</b> <b item-end>Wins</b>
+                </ion-list-header>
+                <ion-item *ngFor="let player of players | orderby:'!wins' ">
+                    <span item-start>{{getPlayerName(player)}}</span> <span
+                        item-end>{{player.wins ? player.wins : 0}}</span>
+                </ion-item>
+            </ion-list>
+        </div>
+
     </div>
 
 </ion-content>

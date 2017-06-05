@@ -23,6 +23,7 @@ import {SignupPage} from "../pages/auth/signup/auth.signup";
 import {LoginPage} from "../pages/auth/login/auth.login";
 import {MetaService} from "../providers/meta.service";
 import {MetaHelper} from "../helpers/meta.helper";
+import {OrderByPipe} from "../pipes/orderby.pipe";
 
 export const firebaseConfig = {
     apiKey: "AIzaSyClJd828Vi82QuSWhqMqtpK6-CYi_bthFg",
@@ -44,7 +45,10 @@ export const firebaseConfig = {
         GamePage,
         AuthPage,
         LoginPage,
-        SignupPage
+        SignupPage,
+
+
+        OrderByPipe
     ],
     imports: [
         BrowserModule,

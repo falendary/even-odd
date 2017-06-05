@@ -10,6 +10,11 @@
 
     <ion-grid *ngIf="user">
         <ion-row>
+            <ion-col col-12>
+                <h4 class="fw-200">Profile</h4>
+            </ion-col>
+        </ion-row>
+        <ion-row>
             <ion-col col-8>
                 <ion-label no-margin color="primary">Name</ion-label>
                 <ion-input placeholder="Alex" [(ngModel)]="user.name"></ion-input>
@@ -27,10 +32,25 @@
                 <ion-input [(ngModel)]="user.email" [disabled]="true"></ion-input>
             </ion-col>
         </ion-row>
+        <ion-row>
+            <ion-col col-12>
+                <h4 class="fw-200">Stats</h4>
+            </ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col col-6>
+                <ion-label no-margin color="primary">Wins</ion-label>
+                <ion-input [(ngModel)]="user.wins" [disabled]="true"></ion-input>
+            </ion-col>
+            <ion-col col-6>
+                <ion-label no-margin color="primary">Loses</ion-label>
+                <ion-input [(ngModel)]="user.loses" [disabled]="true"></ion-input>
+            </ion-col>
+        </ion-row>
     </ion-grid>
 
     <div padding>
-        <button ion-button block (click)="logout()">Logout</button>
+        <button ion-button block color="light" (click)="logout()">Logout</button>
     </div>
 
 </ion-content>
